@@ -520,6 +520,10 @@ $schema = [
                     'href' => 'usergroups.manage',
                     'position' => 800,
                 ],
+                'departments' => [
+                    'href' => 'departments.manage',
+                    'position' => 1000,
+                ],
             ],
             'position' => 300,
         ],
