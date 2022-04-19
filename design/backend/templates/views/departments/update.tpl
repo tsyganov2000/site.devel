@@ -61,7 +61,7 @@
             {include file="common/select_status.tpl" input_name="department_data[status]" id="elm_banner_status" obj_id=$id obj=$department_data hidden=false} 
         
             <div class="control-group">
-                <label class="control-label">{__("head_of_dep")}</label>
+                <label for="return_user"class="control-label">{__("head_dep")}</label>
                 <div class="controls">
                     {include 
                         file="pickers/users/picker.tpl" 

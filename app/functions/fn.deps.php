@@ -69,6 +69,10 @@ function fn_get_departments($params = [], $items_per_page = 0, $lang_code = CART
         $condition .= db_quote(' AND ?:departments.department_id = ?i ', $params['department_id']);
     }
 
+    if (!empty($params['user_id'])) {
+        $condition .= db_quote(' AND ?:departments.user_id = ?i ', $params['user_id']);
+    }
+
     if (!empty($params['status'])) {
         $condition .= db_quote(' AND ?:departments.status = ?s', $params['status']);
     }
