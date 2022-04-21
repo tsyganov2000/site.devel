@@ -12,6 +12,7 @@
         {include_ext file="common/icon.tpl" class="icon-`$search.sort_order_rev`" assign=c_icon}
         {include_ext file="common/icon.tpl" class="icon-dummy" assign=c_dummy}
 
+
         {if $departments}
                 <div class="table-responsive-wrapper longtap-selection">
                     <table class="table table-middle table--relative table-responsive">
@@ -20,19 +21,26 @@
                                 <th width="6%" class="left mobile-hide">
                                     {include file="common/check_items.tpl" class="cm-no-hide-input"}
                                 </th>
-                                <th>
+                                <th width="10%">
                                     <a class="cm-ajax" href="{"`$c_url`&sort_by=position&sort_order=`$search.sort_order_rev`"|fn_url}" data-ca-target-id={$rev}>{__("position")} {if $search.sort_by === "position"} {$c_icon nofilter} {else} {$c_dummy nofilter} {/if}</a>
                                 </th>
+                                <th width="20%">
+                                    <p>{__("logo")}</p>
+                                </th>
                                 <th>
-                                    <a class="cm-ajax" href="{"`$c_url`&sort_by=name&sort_order=`$search.sort_order_rev`"|fn_url}" data-ca-target-id={$rev}>{__("name")} {if $search.sort_by === "name"} {$c_icon nofilter} {else} {$c_dummy nofilter} {/if}</a>
+                                    <a class="cm-ajax" href="{"`$c_url`&sort_by=name&sort_order=`$search.sort_order_rev`"|fn_url}" data-ca-target-id={$rev}>{__("department")} {if $search.sort_by === "name"} {$c_icon nofilter} {else} {$c_dummy nofilter} {/if}</a>
                                 </th>
                                 <th width="6%" class="mobile-hide">&nbsp;</th>
-                                <th width="10%" class="right"><a class="cm-ajax" href="{"`$c_url`&sort_by=status&sort_order=`$search.sort_order_rev`"|fn_url}" data-ca-target-id={$rev}>{__("status")}{if $search.sort_by === "status"}{$c_icon nofilter}{else}{$c_dummy nofilter}{/if}</a></th>
+                                <th width="10%" class="right">
+                                    <a class="cm-ajax" href="{"`$c_url`&sort_by=status&sort_order=`$search.sort_order_rev`"|fn_url}" data-ca-target-id={$rev}>{__("status")}{if $search.sort_by === "status"}{$c_icon nofilter}{else}{$c_dummy nofilter}{/if}</a>
+                                </th>
                             </tr>
                         </thead>
                         {foreach from=$departments item=department}
+
                             <tr class="cm-row-status-{$department.status|lower} cm-longtap-target">
-                                {$allow_save=true}
+
+                                {$allow_save=$department|fn_allow_save_object:"departments"}
 
                                 {if $allow_save}
                                     {$no_hide_input="cm-no-hide-input"}
@@ -46,14 +54,26 @@
                                 <td>
                                     <input type="text" name="departments_data[{$department.department_id}][position]" value="{$department.position}" size="3" class="input-micro">
                                 </td>
-                                <td class="{$no_hide_input}" data-th="{__("name")}">
+                                <td class="products-list__image">
+                                    {include
+                                        file="common/image.tpl"
+                                        image=$department.main_pair.icon|default:$department.main_pair.detailed
+                                        image_id=$department.main_pair.image_id
+                                        image_width=$settings.Thumbnails.product_lists_thumbnail_width
+                                        image_height=$settings.Thumbnails.product_lists_thumbnail_height
+                                        href="departments.update?department_id=`$department.department_id`"|fn_url
+                                        image_css_class="products-list__image--img"
+                                        link_css_class="products-list__image--link"
+                                    }
+                                </td>
+                                <td class="{$no_hide_input}" data-th="{__("department")}">
                                     <a class="row-status" href="{"departments.update?department_id=`$department.department_id`"|fn_url}">{$department.department}</a>
                                 </td>
                                 <td width="6%" class="mobile-hide">
                                     {capture name="tools_list"}
                                         <li>{btn type="list" text=__("edit") href="departments.update?department_id=`$department.department_id`"}</li>
                                         {if $allow_save}
-                                            <li>{btn type="list" class="cm-confirm" text=__("delete") href="departments.delete_departments?department_id=`$department.department_id`" method="POST"}</li>
+                                            <li>{btn type="list" class="cm-confirm" text=__("delete") href="departments.delete_department?department_id=`$department.department_id`" method="POST"}</li>
                                         {/if}
                                     {/capture}
                                     <div class="hidden-tools">
@@ -67,6 +87,11 @@
                         {/foreach}
                     </table>
                 </div>
+                {include file="common/context_menu_wrapper.tpl"
+                    form="departments_form"
+                    object="departments"
+                    items=$smarty.capture.departments_table
+                }
         {else}
             <p class="no-items">{__("no_data")}</p>
         {/if}
@@ -89,6 +114,13 @@
     </form>
 {/capture}
 
+{capture name="sidebar"}
+    {hook name="departments:manage_sidebar"}
+        {include file="common/saved_search.tpl" dispatch="departments.manage" view_type="departments"}
+        {include file="views/departments/components/departments_search_form.tpl" dispatch="departments.manage"}
+    {/hook}
+{/capture}
+
 {hook name="departments:manage_mainbox_params"}
     {$page_title = __("departments")}
     {$select_languages = true}
@@ -100,7 +132,8 @@
     content=$smarty.capture.mainbox 
     buttons=$smarty.capture.buttons
     adv_buttons=$smarty.capture.adv_buttons 
-    select_languages=$select_languages 
+    select_languages=$select_languages
+    sidebar=$smarty.capture.sidebar
 }
 
 {** ad section **}

@@ -18,14 +18,14 @@
             </div>
 
             <div class="control-group">
-                <label for="elm_banner_position" class="control-label">{__("position_short")}</label>
+                <label for="elm_banner_position" class="control-label">{__("position")}</label>
                 <div class="controls">
-                    <input type="text" name="department_data[position]" id="elm_banner_position" value="{$department_data.position|default:"0"}" size="10"/>
+                    <input type="text" name="department_data[position]" id="elm_banner_position" value="{$department_data.position|default:"0"}" size="10" class="input-micro"/>
                 </div>
             </div>
 
             <div class="control-group" id="banner_graphic">
-                <label class="control-label">{__("image")}</label>
+                <label class="control-label">{__("logo")}</label>
                 <div class="controls">
                     {include file="common/attach_images.tpl"
                         image_name="department"
@@ -39,29 +39,23 @@
             </div>
 
             <div class="control-group" id="banner_text">
-                <label class="control-label" for="elm_banner_description">{__("description")}:</label>
+                <label class="control-label" for="elm_dep_description">{__("description")}:</label>
                 <div class="controls">
-                    <textarea id="elm_banner_description" name="department_data[description]" cols="35" rows="8" class="cm-wysiwyg input-large">{$department_data.description}</textarea>
+                    <textarea id="elm_dep_description" name="department_data[description]" cols="35" rows="8" class="cm-wysiwyg input-large">{$department_data.description}</textarea>
                 </div>
             </div>
 
             <div class="control-group">
-                <label class="control-label" for="elm_banner_timestamp_{$id}">{__("creation_date")}</label>
+                <label class="control-label" for="elm_dep_timestamp_{$id}">{__("creation_date")}</label>
                 <div class="controls">
-                {include 
-                    file="common/calendar.tpl" 
-                    date_id="elm_banner_timestamp_`$id`" 
-                    date_name="department_data[timestamp]" 
-                    date_val=$department_data.timestamp|default:$smarty.const.TIME 
-                    start_year=$settings.Company.company_start_year
-                    extra=readonly
-                }
+                    <input type="text" name="department_data[timestamp]" value="{$department_data.timestamp|date_format:"`$settings.Appearance.date_format`"|default:$smarty.const.TIME} "class="input" readonly/>
                 </div>
             </div>
+
             {include file="common/select_status.tpl" input_name="department_data[status]" id="elm_banner_status" obj_id=$id obj=$department_data hidden=false} 
         
             <div class="control-group">
-                <label for="return_user"class="control-label">{__("head_dep")}</label>
+                <label class="control-label">{__("head_dep")}</label>
                 <div class="controls">
                     {include 
                         file="pickers/users/picker.tpl" 

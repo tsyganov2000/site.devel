@@ -57,7 +57,8 @@
     {if !$no_pagination}
         {include file="common/pagination.tpl"}
     {/if}
-
+{else}
+    <p class="no-items">{__("no_data")}</p>
 {/if}
 
 {capture name="mainbox_title"}{$title}{/capture}
