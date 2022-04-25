@@ -19,7 +19,8 @@
                 {$user_info=$department_data.user_id|fn_get_user_short_info}
                 <p>{$user_info.firstname} {$user_info.lastname}</p>
             {else}
-            {__(text_no_dep)}
+                <br />
+                {__(text_no_head_dep)}
             {/if}
         </div>
     </div>

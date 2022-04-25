@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Апр 17 2022 г., 08:35
+-- Время создания: Апр 25 2022 г., 11:14
 -- Версия сервера: 10.7.3-MariaDB
 -- Версия PHP: 7.4.28
 
@@ -32,18 +32,8 @@ CREATE TABLE `cscart_departments` (
   `position` int(11) UNSIGNED NOT NULL DEFAULT 0,
   `status` varchar(1) NOT NULL DEFAULT 'A',
   `timestamp` int(11) UNSIGNED NOT NULL DEFAULT 0,
-  `upd_timestamp` int(11) UNSIGNED NOT NULL DEFAULT 0,
   `user_id` int(11) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
---
--- Дамп данных таблицы `cscart_departments`
---
-
-INSERT INTO `cscart_departments` (`department_id`, `position`, `status`, `timestamp`, `upd_timestamp`, `user_id`) VALUES
-(1, 3, 'A', 1649883600, 0, 4),
-(5, 5, 'A', 1649970000, 0, 4),
-(6, 11, 'A', 1649365200, 0, 4);
 
 -- --------------------------------------------------------
 
@@ -63,10 +53,7 @@ CREATE TABLE `cscart_department_description` (
 --
 
 INSERT INTO `cscart_department_description` (`department_id`, `lang_code`, `department`, `description`) VALUES
-(0, 'ru', '', NULL),
-(1, 'ru', 'first dep', ''),
-(5, 'ru', 'one more dep', '<p><strong>Fast </strong>and <b>furious</b></p>'),
-(6, 'ru', 'best dep', '');
+(0, 'ru', '', NULL);
 
 -- --------------------------------------------------------
 
@@ -78,19 +65,6 @@ CREATE TABLE `cscart_department_links` (
   `department_id` int(11) UNSIGNED NOT NULL DEFAULT 0,
   `member_user_id` int(11) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
---
--- Дамп данных таблицы `cscart_department_links`
---
-
-INSERT INTO `cscart_department_links` (`department_id`, `member_user_id`) VALUES
-(1, 3),
-(1, 5),
-(5, 3),
-(5, 4),
-(5, 5),
-(6, 3),
-(6, 5);
 
 --
 -- Индексы сохранённых таблиц
@@ -125,7 +99,7 @@ ALTER TABLE `cscart_department_links`
 -- AUTO_INCREMENT для таблицы `cscart_departments`
 --
 ALTER TABLE `cscart_departments`
-  MODIFY `department_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `department_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

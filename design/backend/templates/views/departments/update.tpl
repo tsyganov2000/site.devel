@@ -11,7 +11,7 @@
         <input type="hidden" class="cm-no-hide-input" name="department_id" value="{$id}" />
         <div id="content_general">
             <div class="control-group">
-                <label for="elm_banner_name" class="control-label cm-required">{__("name")}</label>
+                <label for="elm_banner_name" class="control-label cm-required">{__("department")}</label>
                 <div class="controls">
                     <input type="text" name="department_data[department]" id="elm_banner_name" value="{$department_data.department}" size="25" class="input-large" />
                 </div>
