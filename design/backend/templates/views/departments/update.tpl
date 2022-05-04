@@ -6,28 +6,28 @@
 
 {capture name="mainbox"}
 
-    <form action="{""|fn_url}" method="post" class="form-horizontal form-edit" name="banners_form" enctype="multipart/form-data">
+    <form action="{""|fn_url}" method="post" class="form-horizontal form-edit" name="departments_form" enctype="multipart/form-data">
         <input type="hidden" class="cm-no-hide-input" name="fake" value="1" />
         <input type="hidden" class="cm-no-hide-input" name="department_id" value="{$id}" />
         <div id="content_general">
             <div class="control-group">
-                <label for="elm_banner_name" class="control-label cm-required">{__("department")}</label>
+                <label for="elm_department_name" class="control-label cm-required">{__("department")}</label>
                 <div class="controls">
-                    <input type="text" name="department_data[department]" id="elm_banner_name" value="{$department_data.department}" size="25" class="input-large" />
+                    <input type="text" name="department_data[department]" id="elm_department_name" value="{$department_data.department}" size="25" class="input-large" />
                 </div>
             </div>
 
             <div class="control-group">
-                <label for="elm_banner_position" class="control-label">{__("position")}</label>
+                <label for="elm_department_position" class="control-label">{__("position")}</label>
                 <div class="controls">
-                    <input type="text" name="department_data[position]" id="elm_banner_position" value="{$department_data.position|default:"0"}" size="10" class="input-micro"/>
+                    <input type="text" name="department_data[position]" id="elm_department_position" value="{$department_data.position|default:"0"}" size="10" class="input-micro"/>
                 </div>
             </div>
 
-            <div class="control-group" id="banner_graphic">
+            <div class="control-group" id="department_graphic">
                 <label class="control-label">{__("logo")}</label>
                 <div class="controls">
-                    {include file="common/attach_images.tpl"
+                    {include "common/attach_images.tpl"
                         image_name="department"
                         image_object_type="department"
                         image_pair=$department_data.main_pair
@@ -38,7 +38,7 @@
                 </div>
             </div>
 
-            <div class="control-group" id="banner_text">
+            <div class="control-group" id="department_text">
                 <label class="control-label" for="elm_dep_description">{__("description")}:</label>
                 <div class="controls">
                     <textarea id="elm_dep_description" name="department_data[description]" cols="35" rows="8" class="cm-wysiwyg input-large">{$department_data.description}</textarea>
@@ -52,13 +52,18 @@
                 </div>
             </div>
 
-            {include file="common/select_status.tpl" input_name="department_data[status]" id="elm_banner_status" obj_id=$id obj=$department_data hidden=false} 
+            {include "common/select_status.tpl"
+                input_name="department_data[status]"
+                id="elm_department_status"
+                obj_id=$id
+                obj=$department_data
+                hidden=false
+            } 
         
             <div class="control-group">
                 <label class="control-label">{__("head_dep")}</label>
                 <div class="controls">
-                    {include 
-                        file="pickers/users/picker.tpl" 
+                    {include "pickers/users/picker.tpl" 
                         but_text=""
                         data_id="return_user" 
                         but_meta="btn" 
@@ -67,7 +72,7 @@
                         placement="right"
                         display="radio"
                         view_mode="single_button"
-                        user_info=$u_info
+                        user_info=$head_user_info
                     }
                 </div>
             </div>
@@ -75,15 +80,14 @@
             <div class="control-group">
                 <label class="control-label">{__("members_dep")}</label>
                 <div class="controls">
-                    {include 
-                        file="pickers/users/picker.tpl" 
+                    {include "pickers/users/picker.tpl" 
                         but_text=__("add_members_dep") 
                         data_id="return_users"
                         but_meta="btn" 
                         input_name="department_data[member_user_ids]"
                         item_ids=$department_data.member_user_ids
                         placement="right"
-                        user_info=$m_u_info
+                        user_info=$member_user_info
                     }
                 </div>
             </div>
@@ -92,9 +96,20 @@
 
         {capture name="buttons"}
             {if !$id}
-                {include file="buttons/save_cancel.tpl" but_role="submit-link" but_target_form="banners_form" but_name="dispatch[departments.update_department]"}
+                {include "buttons/save_cancel.tpl" 
+                    but_role="submit-link" 
+                    but_target_form="departments_form" 
+                    but_name="dispatch[departments.update_department]"
+                }
             {else}
-                {include file="buttons/save_cancel.tpl" but_name="dispatch[departments.update_department]" but_role="submit-link" but_target_form="banners_form" hide_first_button=$hide_first_button hide_second_button=$hide_second_button save=$id}
+                {include "buttons/save_cancel.tpl" 
+                    but_name="dispatch[departments.update_department]" 
+                    but_role="submit-link" 
+                    but_target_form="departments_form" 
+                    hide_first_button=$hide_first_button 
+                    hide_second_button=$hide_second_button 
+                    save=$id
+                }
                 {capture name="tools_list"}
                     <li>{btn type="list" text=__("delete") class="cm-confirm" href="departments.delete_department?department_id=`$id`" method="POST"}</li>
                 {/capture}
@@ -113,7 +128,7 @@
     {$title_end = $department_data.department}
 {/if}
 
-{include file="common/mainbox.tpl"
+{include "common/mainbox.tpl"
     title_start=$title_start
     title_end=$title_end
     title=$title
@@ -121,4 +136,4 @@
     buttons=$smarty.capture.buttons
     select_languages=true}
 
-{** banner section **}
+{** department section **}

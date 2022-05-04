@@ -25,7 +25,6 @@
         </div>
     </div>
 
-    
     <div class="table-responsive-wrapper">
         <strong>{__("members_dep")}:</strong>
         <table width="100%" class="table table-middle table--relative table-responsive table-responsive-w-titles">

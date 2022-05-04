@@ -10,28 +10,27 @@
  *                                                                          *
  ****************************************************************************
  * PLEASE READ THE FULL TEXT  OF THE SOFTWARE  LICENSE   AGREEMENT  IN  THE *
- * "copyright.txt" FILE PROVIDED WITH THIS DISTRIBUTION PACKAGE.            *
+ * 'copyright.txt' FILE PROVIDED WITH THIS DISTRIBUTION PACKAGE.            *
  ****************************************************************************/
 
 use Tygh\Registry;
 
-if (!defined('BOOTSTRAP')) {
-    die('Access denied');
-}
+defined('BOOTSTRAP') or die('Access denied');
 
 if ($mode === 'view') {
-
-
-    Tygh::$app['session']['continue_url'] = "departments.view";
+    
+    Tygh::$app['session']['continue_url'] = 'departments.view';
 
     list($departments, $search) = fn_get_departments($_REQUEST, Registry::get('settings.Appearance.products_per_page'), CART_LANGUAGE);
-    usort($departments, "fn_compare_dep_pos");
+    usort($departments, 'fn_compare_departments_position');
 
-    Tygh::$app['view']->assign('departments', $departments);
-    Tygh::$app['view']->assign('search', $search);
-    Tygh::$app['view']->assign('columns', 5);
+    Tygh::$app['view']->assign([
+        'departments' => $departments,
+        'search' => $search,
+        'columns_showcase_departments' => 5
+    ]);
 
-    fn_add_breadcrumb(__("departments"));
+    fn_add_breadcrumb(__('departments'));
 } elseif ($mode === 'view_dep') {
     $department_data = [];
     $department_id = !empty($_REQUEST['department_id']) ? $_REQUEST['department_id'] : 0;
@@ -45,7 +44,7 @@ if ($mode === 'view') {
 
     $params = $_REQUEST;
     $params['extend'] = ['description'];
-    $department_data['member_user_ids'] = !empty($department_data['member_user_ids']) ? explode(",", $department_data['member_user_ids']) : null;
+    $department_data['member_user_ids'] = !empty($department_data['member_user_ids']) ? explode(',', $department_data['member_user_ids']) : [];
 
     if ($items_per_page = fn_change_session_param(Tygh::$app['session']['search_params'], $_REQUEST, 'items_per_page')) {
         $params['items_per_page'] = $items_per_page;
@@ -58,5 +57,4 @@ if ($mode === 'view') {
     }
 
     Tygh::$app['view']->assign('department_data', $department_data);
-    Tygh::$app['view']->assign('search', $search);
 }
