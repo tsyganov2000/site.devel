@@ -47,6 +47,7 @@ if ($config['db_host'] == '%DB_HOST%') {
 
 // Load core functions
 $fn_list = array(
+    'fn.deps.php',
     'fn.database.php',
     'fn.users.php',
     'fn.categories.php',
